@@ -21,7 +21,7 @@ export function render_footnote_caption (tokens, idx/* , options, env, slf */) {
 		n += `:${tokens[idx].meta.subId}`;
 	}
 
-	return `[${n}]`;
+	return n;
 }
 
 export function render_footnote_ref (tokens, idx, options, env, slf) {
@@ -33,13 +33,13 @@ export function render_footnote_ref (tokens, idx, options, env, slf) {
 		refid += `:${tokens[idx].meta.subId}`;
 	}
 
-	let a_attrs = `href="#fn${id}" id="fnref${refid}"`;
+	let a_attrs = `href="#fn${id}" id="fnref${refid}" class="footnote-ref"`;
 
 	if (options.epub) {
 		a_attrs += ` epub:type="noteref"`;
 	}
 
-	return `<sup class="footnote-ref"><a ${ a_attrs }>${caption}</a></sup>`;
+	return `<a ${ a_attrs }>${caption}</a>`;
 }
 
 export function render_footnote_block_open (tokens, idx, options) {

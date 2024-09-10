@@ -100,6 +100,18 @@ package system, module will add itself globally as `window.markdownitFootnote`.
 |------|------|---------|-------------|
 | `epub` | `boolean` | `false` | If `true`, the plugin will generate HTML optimized for epub books. |
 
+### Style
+
+The plugin generates HTML with classes that you can style with CSS.
+You would probably need something like this at a minimum:
+
+```css
+.footnote-ref {
+  font-size: 80%;
+  vertical-align: super;
+}
+```
+
 ### Advanced customization
 
 If you want to customize the output, you'll need to replace the template
