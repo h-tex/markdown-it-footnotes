@@ -39,7 +39,16 @@ export function render_footnote_ref (tokens, idx, options, env, slf) {
 		a_attrs += ` epub:type="noteref"`;
 	}
 
-	return `<a ${ a_attrs }>${caption}</a>`;
+	let ret = `<a ${ a_attrs }>${caption}</a>`;
+
+	if (options.placement === "after") {
+		let label = tokens[idx].meta.label;
+		let footnote_text = `<span class="footnote-text inline" hidden>${ env.footnotes.texts[label] }</span>`;
+
+		ret += footnote_text;
+	}
+
+	return ret;
 }
 
 export function render_footnote_block_open (tokens, idx, options) {

@@ -55,6 +55,7 @@ export default function footnote_plugin (md) {
 
 		state.env.footnotes ??= {};
 		state.env.footnotes.refs ??= {};
+		state.env.footnotes.texts ??= {};
 
 		const label = state.src.slice(start + 2, pos - 2);
 		state.env.footnotes.refs[`:${label}`] = -1;
@@ -103,6 +104,11 @@ export default function footnote_plugin (md) {
 		}
 
 		state.md.block.tokenize(state, startLine, endLine, true);
+
+		let first_token_index = state.tokens.findLastIndex((token) => token.type === "footnote_reference_open");
+		let current_footnote_tokens = state.tokens.slice(first_token_index);
+		let footnote_text = current_footnote_tokens.filter(token => token.content).reduce((acc, token) => acc + token.content, "");
+		state.env.footnotes.texts[label] = state.md.renderInline(footnote_text);
 
 		state.parentType = oldParentType;
 		state.blkIndent -= 4;
