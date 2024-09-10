@@ -19,33 +19,38 @@ export default function footnote_plugin (md) {
 			return false;
 		}
 
-		if (state.src.charCodeAt(start) !== 0x5B/* [ */) {
-			return false;
-		}
-		if (state.src.charCodeAt(start + 1) !== 0x5E/* ^ */) {
+		if (state.src[start] !== "[" || state.src[start + 1] !== "^") {
+			// quick fail on non-footnote start
 			return false;
 		}
 
 		let pos;
 
 		for (pos = start + 2; pos < max; pos++) {
-			if (state.src.charCodeAt(pos) === 0x20) {
+			let char = state.src[pos];
+
+			if (char === " ") {
+				// Spaces not allowed in id
 				return false;
 			}
-			if (state.src.charCodeAt(pos) === 0x5D /* ] */) {
+			if (char === "]") {
+				if (pos === start + 2 || pos >= max - 1) {
+					// no empty footnotes or empty labels
+					return false;
+				}
+
 				break;
 			}
 		}
 
-		if (pos === start + 2) {
-			return false;
-		} // no empty footnote labels
-		if (pos + 1 >= max || state.src.charCodeAt(++pos) !== 0x3A /* : */) {
+		if (state.src[++pos] !== ":") {
 			return false;
 		}
+
 		if (silent) {
 			return true;
 		}
+
 		pos++;
 
 		state.env.footnotes ??= {};
