@@ -43,7 +43,7 @@ export function render_footnote_ref (tokens, idx, options, env, slf) {
 }
 
 export function render_footnote_block_open (tokens, idx, options) {
-	return (options.xhtmlOut ? '<hr class="footnotes-sep" />\n' : '<hr class="footnotes-sep">\n') +
+	return '<hr class="footnotes-sep" />\n' +
 		'<section class="footnotes">\n' +
 		'<ol class="footnotes-list">\n';
 }
