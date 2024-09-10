@@ -48,12 +48,9 @@ export default function footnote_plugin (md) {
 		}
 		pos++;
 
-		if (!state.env.footnotes) {
-			state.env.footnotes = {};
-		}
-		if (!state.env.footnotes.refs) {
-			state.env.footnotes.refs = {};
-		}
+		state.env.footnotes ??= {};
+		state.env.footnotes.refs ??= {};
+
 		const label = state.src.slice(start + 2, pos - 2);
 		state.env.footnotes.refs[`:${label}`] = -1;
 
