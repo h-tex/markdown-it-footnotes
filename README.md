@@ -92,7 +92,15 @@ _Differences in browser._ If you load script directly into the page, without
 package system, module will add itself globally as `window.markdownitFootnote`.
 
 
-### Customize
+## Customize
+
+### Options
+
+| Name | Type | Default | Description |
+|------|------|---------|-------------|
+| `epub` | `boolean` | `false` | If `true`, the plugin will generate HTML optimized for epub books. |
+
+### Advanced customization
 
 If you want to customize the output, you'll need to replace the template
 functions. To see which templates exist and their default implementations,

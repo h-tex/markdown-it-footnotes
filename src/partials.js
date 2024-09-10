@@ -33,7 +33,13 @@ export function render_footnote_ref (tokens, idx, options, env, slf) {
 		refid += `:${tokens[idx].meta.subId}`;
 	}
 
-	return `<sup class="footnote-ref"><a href="#fn${id}" id="fnref${refid}">${caption}</a></sup>`;
+	let a_attrs = `href="#fn${id}" id="fnref${refid}"`;
+
+	if (options.epub) {
+		a_attrs += ` epub:type="noteref"`;
+	}
+
+	return `<sup class="footnote-ref"><a ${ a_attrs }>${caption}</a></sup>`;
 }
 
 export function render_footnote_block_open (tokens, idx, options) {
@@ -53,7 +59,13 @@ export function render_footnote_open (tokens, idx, options, env, slf) {
 		id += `:${tokens[idx].meta.subId}`;
 	}
 
-	return `<li id="fn${id}" class="footnote-item">`;
+	let li_attrs = `id="fn${id}" class="footnote-item"`;
+
+	if (options.epub) {
+		li_attrs += ` epub:type="footnote"`;
+	}
+
+	return `<li ${ li_attrs }>`;
 }
 
 export function render_footnote_close () {
@@ -67,6 +79,11 @@ export function render_footnote_anchor (tokens, idx, options, env, slf) {
 		id += `:${tokens[idx].meta.subId}`;
 	}
 
+	let attrs = "";
+	if (options.epub) {
+		attrs += ` aria-label="${options.backrefLabel ?? "back to text"}"`;
+	}
+
 	/* ↩ with escape code to prevent display as Apple Emoji on iOS */
-	return ` <a href="#fnref${id}" class="footnote-backref">\u21a9\uFE0E</a>`;
+	return ` <a href="#fnref${id}" class="footnote-backref"${attrs}>\u21a9\uFE0E</a>`;
 }
