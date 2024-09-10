@@ -1,8 +1,12 @@
-# markdown-it-footnote
+# markdown-it-footnotes (a fork of markdown-it-footnote)
 
-[![CI](https://github.com/markdown-it/markdown-it-footnote/actions/workflows/ci.yml/badge.svg)](https://github.com/markdown-it/markdown-it-footnote/actions/workflows/ci.yml)
-[![NPM version](https://img.shields.io/npm/v/markdown-it-footnote.svg?style=flat)](https://www.npmjs.org/package/markdown-it-footnote)
-[![Coverage Status](https://img.shields.io/coveralls/markdown-it/markdown-it-footnote/master.svg?style=flat)](https://coveralls.io/r/markdown-it/markdown-it-footnote?branch=master)
+This is a fork of [markdown-it-footnote](https://npmjs.com/package/markdown-it-footnote)
+optimized to support printed books better
+and provide more customization.
+
+[![CI](https://github.com/h-tex/markdown-it-footnotes/actions/workflows/ci.yml/badge.svg)](https://github.com/h-tex/markdown-it-footnotes/actions/workflows/ci.yml)
+[![NPM version](https://img.shields.io/npm/v/markdown-it-footnotes.svg?style=flat)](https://www.npmjs.org/package/markdown-it-footnotes)
+<!-- [![Coverage Status](https://img.shields.io/coveralls/markdown-it/markdown-it-footnote/master.svg?style=flat)](https://coveralls.io/r/markdown-it/markdown-it-footnote?branch=master) -->
 
 > Footnotes plugin for [markdown-it](https://github.com/markdown-it/markdown-it) markdown parser.
 
