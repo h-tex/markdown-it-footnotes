@@ -33,7 +33,7 @@ export function render_footnote_ref (tokens, idx, options, env, slf) {
 		refid += `:${tokens[idx].meta.subId}`;
 	}
 
-	let a_attrs = `href="#fn${id}" id="fnref${refid}" class="footnote-ref"`;
+	let a_attrs = `href="#fn-${id}" id="fn-ref-${refid}" class="footnote-ref"`;
 
 	if (options.epub) {
 		a_attrs += ` epub:type="noteref"`;
@@ -49,7 +49,7 @@ export function render_footnote_open (tokens, idx, options, env, slf) {
 		id += `:${tokens[idx].meta.subId}`;
 	}
 
-	let attrs = `id="fn${id}" class="footnote"`;
+	let attrs = `id="fn-${id}" class="footnote"`;
 
 	if (options.epub) {
 		attrs += ` epub:type="footnote"`;
@@ -76,5 +76,5 @@ export function render_footnote_anchor (tokens, idx, options, env, slf) {
 	}
 
 	/* ↩ with escape code to prevent display as Apple Emoji on iOS */
-	return ` <a href="#fnref${id}" class="footnote-backref"${attrs}>\u21a9\uFE0E</a>`;
+	return ` <a href="#fn-ref-${id}" class="footnote-backref"${attrs}>\u21a9\uFE0E</a>`;
 }
