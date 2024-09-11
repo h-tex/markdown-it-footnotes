@@ -198,7 +198,7 @@ export default function footnote_plugin (md) {
 		let pos;
 
 		for (pos = start + 2; pos < max; pos++) {
-			let char = state.src[char];
+			let char = state.src[pos];
 
 			if (char === " " || char === "\n") {
 				// Spaces and newlines not allowed in id
@@ -319,14 +319,8 @@ export default function footnote_plugin (md) {
 				state.tokens = state.tokens.concat(tokens);
 			}
 
-			let lastParagraph;
-
-			if (state.tokens[state.tokens.length - 1].type === "paragraph_close") {
-				lastParagraph = state.tokens.pop();
-			}
-			else {
-				lastParagraph = null;
-			}
+			let lastToken = state.tokens.at(-1);
+			let lastParagraph = lastToken.type === "paragraph_close" ? state.tokens.pop() : null;
 
 			const t = list[i].count > 0 ? list[i].count : 1;
 			for (let j = 0; j < t; j++) {
