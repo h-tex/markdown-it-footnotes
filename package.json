@@ -11,7 +11,7 @@
   "repository": "markdown-it/markdown-it-footnote",
   "license": "MIT",
   "type": "module",
-  "main": "dist/index.cjs.js",
+  "main": "dist/index.cjs",
   "module": "index.mjs",
   "exports": {
     ".": {
