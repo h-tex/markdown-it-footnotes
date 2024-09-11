@@ -14,7 +14,7 @@ export default function footnote_plugin (md) {
 		const max = state.eMarks[startLine];
 
 		// line should be at least 5 chars - "[^x]:"
-		if (start + 4 > max) {
+		if (start + 5 >= max) {
 			return false;
 		}
 
@@ -126,8 +126,8 @@ export default function footnote_plugin (md) {
 		const max = state.posMax;
 		const start = state.pos;
 
-		if (start + 3 > max) {
-			// Inline footnotes are at least 4 chars - "^[x]"
+		// Inline footnotes are at least 4 chars - "^[x]"
+		if (start + 4 >= max) {
 			return false;
 		}
 
@@ -181,17 +181,17 @@ export default function footnote_plugin (md) {
 		const start = state.pos;
 
 		// should be at least 4 chars - "[^x]"
-		if (start + 3 > max) {
+		if (start + 4 >= max) {
 			return false;
 		}
 
 		if (!state.env.footnotes || !state.env.footnotes.refs) {
 			return false;
 		}
-		if (state.src.charCodeAt(start) !== 0x5B/* [ */) {
-			return false;
-		}
-		if (state.src.charCodeAt(start + 1) !== 0x5E/* ^ */) {
+
+		let char = state.src[start];
+
+		if (char !== "[" || state.src[start + 1] !== "^") {
 			return false;
 		}
 
