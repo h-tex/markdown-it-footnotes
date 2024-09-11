@@ -126,10 +126,13 @@ export default function footnote_plugin (md) {
 		const max = state.posMax;
 		const start = state.pos;
 
-		if (start + 2 >= max) {
+		if (start + 3 > max) {
+			// Inline footnotes are at least 4 chars - "^[x]"
 			return false;
 		}
+
 		if (state.src[start] !== "^" || state.src[start + 1] !== "[") {
+			// Doesn’t start with "^["
 			return false;
 		}
 
@@ -145,12 +148,9 @@ export default function footnote_plugin (md) {
 		// so all that"s left to do is to call tokenizer.
 		//
 		if (!silent) {
-			if (!state.env.footnotes) {
-				state.env.footnotes = {};
-			}
-			if (!state.env.footnotes.list) {
-				state.env.footnotes.list = [];
-			}
+			state.env.footnotes ??= {};
+			state.env.footnotes.list ??= [];
+
 			const footnoteId = state.env.footnotes.list.length;
 			const tokens = [];
 
