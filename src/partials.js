@@ -42,16 +42,6 @@ export function render_footnote_ref (tokens, idx, options, env, slf) {
 	return `<a ${ a_attrs }>${caption}</a>`;
 }
 
-export function render_footnote_block_open (tokens, idx, options) {
-	return '<hr class="footnotes-sep" />\n' +
-		'<section class="footnotes">\n' +
-		'<ol class="footnotes-list">\n';
-}
-
-export function render_footnote_block_close () {
-	return "</ol>\n</section>\n";
-}
-
 export function render_footnote_open (tokens, idx, options, env, slf) {
 	let id = slf.rules.footnote_anchor_name(tokens, idx, options, env, slf);
 
@@ -59,19 +49,20 @@ export function render_footnote_open (tokens, idx, options, env, slf) {
 		id += `:${tokens[idx].meta.subId}`;
 	}
 
-	let li_attrs = `id="fn${id}" class="footnote-item"`;
+	let attrs = `id="fn${id}" class="footnote"`;
 
 	if (options.epub) {
-		li_attrs += ` epub:type="footnote"`;
+		attrs += ` epub:type="footnote"`;
 	}
 
-	return `<li ${ li_attrs }>`;
+	return `<article ${ attrs }>`;
 }
 
 export function render_footnote_close () {
-	return "</li>\n";
+	return "</article>\n";
 }
 
+// Footnote backlinks
 export function render_footnote_anchor (tokens, idx, options, env, slf) {
 	let id = slf.rules.footnote_anchor_name(tokens, idx, options, env, slf);
 

@@ -2,8 +2,6 @@ import * as partials from "./src/partials.js";
 import * as parse from "./src/parse.js";
 
 export default function footnote_plugin (md) {
-	const parseLinkLabel = md.helpers.parseLinkLabel;
-
 	for (let fn in partials) {
 		let key = fn.replace("render_", "");
 		md.renderer.rules[key] = partials[fn];

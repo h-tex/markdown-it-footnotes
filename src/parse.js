@@ -310,15 +310,18 @@ export function footnote_tail (state) {
 			currentLabel = tok.meta.label;
 			return false;
 		}
+
 		if (tok.type === "footnote_reference_close") {
 			insideRef = false;
 			// prepend ":" to avoid conflict with Object.prototype members
 			refTokens[":" + currentLabel] = current;
 			return false;
 		}
+
 		if (insideRef) {
 			current.push(tok);
 		}
+
 		return !insideRef;
 	});
 
@@ -326,8 +329,6 @@ export function footnote_tail (state) {
 		return;
 	}
 	const list = state.env.footnotes.list;
-
-	state.tokens.push(new state.Token("footnote_block_open", "", 1));
 
 	for (let i = 0, l = list.length; i < l; i++) {
 		const token_fo = new state.Token("footnote_open", "", 1);
@@ -374,6 +375,4 @@ export function footnote_tail (state) {
 
 		state.tokens.push(new state.Token("footnote_close", "", -1));
 	}
-
-	state.tokens.push(new state.Token("footnote_block_close", "", -1));
 }
