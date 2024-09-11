@@ -198,23 +198,27 @@ export default function footnote_plugin (md) {
 		let pos;
 
 		for (pos = start + 2; pos < max; pos++) {
-			if (state.src.charCodeAt(pos) === 0x20) {
+			let char = state.src[char];
+
+			if (char === " " || char === "\n") {
+				// Spaces and newlines not allowed in id
 				return false;
 			}
-			if (state.src.charCodeAt(pos) === 0x0A) {
-				return false;
-			}
-			if (state.src.charCodeAt(pos) === 0x5D /* ] */) {
+
+			if (char === "]") {
+				if (pos === start + 2) {
+					// label is empty ([^])
+					return false;
+				}
+
 				break;
 			}
 		}
 
-		if (pos === start + 2) {
-			return false;
-		} // no empty footnote labels
 		if (pos >= max) {
 			return false;
 		}
+
 		pos++;
 
 		const label = state.src.slice(start + 2, pos - 1);
