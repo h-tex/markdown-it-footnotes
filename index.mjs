@@ -55,6 +55,7 @@ export default function footnote_plugin (md) {
 
 		state.env.footnotes ??= {};
 		state.env.footnotes.refs ??= {};
+		state.env.footnotes.texts ??= {};
 
 		const label = state.src.slice(start + 2, pos - 2);
 		state.env.footnotes.refs[`:${label}`] = -1;
@@ -103,6 +104,10 @@ export default function footnote_plugin (md) {
 		}
 
 		state.md.block.tokenize(state, startLine, endLine, true);
+
+		// After tokenization, 3 tokens (of type paragraph_open, inline, and paragraph_close, respectively) were added to the stream of tokens.
+		// The token of type inline contains the actual footnote text
+		state.env.footnotes.texts[label] = state.md.renderInline(state.tokens.at(-2).content);
 
 		state.parentType = oldParentType;
 		state.blkIndent -= 4;
