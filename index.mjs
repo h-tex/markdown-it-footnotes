@@ -105,10 +105,7 @@ export default function footnote_plugin (md) {
 
 		state.md.block.tokenize(state, startLine, endLine, true);
 
-		let first_token_index = state.tokens.findLastIndex((token) => token.type === "footnote_reference_open");
-		let current_footnote_tokens = state.tokens.slice(first_token_index);
-		let footnote_text = current_footnote_tokens.filter(token => token.content).reduce((acc, token) => acc + token.content, "");
-		state.env.footnotes.texts[label] = state.md.renderInline(footnote_text);
+		state.env.footnotes.texts[label] = state.md.renderInline(state.tokens.at(-2).content);
 
 		state.parentType = oldParentType;
 		state.blkIndent -= 4;
