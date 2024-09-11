@@ -55,7 +55,7 @@ export function render_footnote_open (tokens, idx, options, env, slf) {
 		attrs += ` epub:type="footnote"`;
 	}
 
-	return `<article ${ attrs }>`;
+	return `<article ${ attrs }><a href="#fn-${ id }" class="footnote-marker">${ id }</a>`;
 }
 
 export function render_footnote_close () {
