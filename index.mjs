@@ -2,7 +2,6 @@ import * as partials from "./src/partials.js";
 
 export default function footnote_plugin (md) {
 	const parseLinkLabel = md.helpers.parseLinkLabel;
-	const isSpace = md.utils.isSpace;
 
 	for (let fn in partials) {
 		let key = fn.replace("render_", "");
@@ -64,25 +63,29 @@ export default function footnote_plugin (md) {
 		token_fref_o.level = state.level++;
 		state.tokens.push(token_fref_o);
 
-		const oldBMark = state.bMarks[startLine];
-		const oldTShift = state.tShift[startLine];
-		const oldSCount = state.sCount[startLine];
-		const oldParentType = state.parentType;
+		// Store current state so it can be restored
+		let old = {
+			parentType: state.parentType, // usually "paragraph"
+			bMarks: state.bMarks[startLine], // bMarks: Index of the beginning of each line
+			tShift: state.tShift[startLine], // tShift: indentation offset of the current line
+			sCount: state.sCount[startLine], // computed indentation level of the current line (including tab expansions)
+		};
 
 		const posAfterColon = pos;
-		const initial = state.sCount[startLine] + pos - (state.bMarks[startLine] + state.tShift[startLine]);
+		let posFirstNonWhitespace = state.bMarks[startLine] + state.tShift[startLine];
+
+		const initial = state.sCount[startLine] + pos - posFirstNonWhitespace;
 		let offset = initial;
 
+		// Find position of first non-space character after footnote marker and its offset
 		while (pos < max) {
-			const ch = state.src.charCodeAt(pos);
+			let char = state.src[pos];
 
-			if (isSpace(ch)) {
-				if (ch === 0x09) {
-					offset += 4 - offset % 4;
-				}
-				else {
-					offset++;
-				}
+			if (char === " ") {
+				offset++;
+			}
+			else if (char === "\t") {
+				offset += 4 - offset % 4;
 			}
 			else {
 				break;
@@ -91,9 +94,9 @@ export default function footnote_plugin (md) {
 			pos++;
 		}
 
+		// Set state for parsing block
 		state.tShift[startLine] = pos - posAfterColon;
 		state.sCount[startLine] = offset - initial;
-
 		state.bMarks[startLine] = posAfterColon;
 		state.blkIndent += 4;
 		state.parentType = "footnote";
@@ -104,15 +107,16 @@ export default function footnote_plugin (md) {
 
 		state.md.block.tokenize(state, startLine, endLine, true);
 
-		state.parentType = oldParentType;
+		// Restore original state
+		state.parentType = old.parentType;
 		state.blkIndent -= 4;
-		state.tShift[startLine] = oldTShift;
-		state.sCount[startLine] = oldSCount;
-		state.bMarks[startLine] = oldBMark;
+		state.tShift[startLine] = old.tShift;
+		state.sCount[startLine] = old.sCount;
+		state.bMarks[startLine] = old.bMarks;
 
-		const token_fref_c = new state.Token("footnote_reference_close", "", -1);
-		token_fref_c.level = --state.level;
-		state.tokens.push(token_fref_c);
+		const token_ref_close = new state.Token("footnote_reference_close", "", -1);
+		token_ref_close.level = --state.level;
+		state.tokens.push(token_ref_close);
 
 		return true;
 	}
@@ -125,10 +129,7 @@ export default function footnote_plugin (md) {
 		if (start + 2 >= max) {
 			return false;
 		}
-		if (state.src.charCodeAt(start) !== 0x5E/* ^ */) {
-			return false;
-		}
-		if (state.src.charCodeAt(start + 1) !== 0x5B/* [ */) {
+		if (state.src[start] !== "^" || state.src[start + 1] !== "[") {
 			return false;
 		}
 
