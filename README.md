@@ -103,14 +103,7 @@ package system, module will add itself globally as `window.markdownitFootnote`.
 ### Style
 
 The plugin generates HTML with classes that you can style with CSS.
-You would probably need something like this at a minimum:
-
-```css
-.footnote-ref {
-  font-size: 80%;
-  vertical-align: super;
-}
-```
+You can see an example of such CSS in [`footnotes.css` in this repository](footnotes.css).
 
 ### Advanced customization
 
