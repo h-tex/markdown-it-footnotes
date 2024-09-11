@@ -75,6 +75,5 @@ export function render_footnote_anchor (tokens, idx, options, env, slf) {
 		attrs += ` aria-label="${options.backrefLabel ?? "back to text"}"`;
 	}
 
-	/* ↩ with escape code to prevent display as Apple Emoji on iOS */
-	return ` <a href="#fn-ref-${id}" class="footnote-backref"${attrs}>\u21a9\uFE0E</a>`;
+	return ` <a href="#fn-ref-${id}" class="footnote-backref"${attrs}>⤴️</a>`;
 }

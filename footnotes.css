@@ -26,3 +26,12 @@
 		/* margin-inline-end: 0.5em; */
 	}
 }
+
+.footnote-backref {
+	font-family: monospace;
+
+	&::after {
+		/* Prevent display as emoji */
+		content: "\FE0E";
+	}
+}
